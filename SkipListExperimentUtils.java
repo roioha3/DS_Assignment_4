@@ -98,6 +98,6 @@ public class SkipListExperimentUtils {
         }
     }
     public static void main(String[] args) {
-        System.exit(1); // Remove this line.
+        Task2Dot6();
     }
 }
