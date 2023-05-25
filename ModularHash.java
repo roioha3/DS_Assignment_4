@@ -11,10 +11,10 @@ public class ModularHash implements HashFactory<Integer> {
     }
 
     public class Functor implements HashFunctor<Integer> {
-        final private int a;
-        final private int b;
-        final private long p;
-        final private int m;
+        final private int a = 0;
+        final private int b = 0;
+        final private long p = 0;
+        final private int m = 0;
         @Override
         public int hash(Integer key) {
             throw new UnsupportedOperationException("Replace this by your implementation");
