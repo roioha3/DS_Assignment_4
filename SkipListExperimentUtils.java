@@ -15,6 +15,7 @@ public class SkipListExperimentUtils {
      *
      * 6. Return the DS and the difference between the times from 3 and 5.
      */
+
     public static Pair<AbstractSkipList, Double> measureInsertions(double p, int size) {
         throw new UnsupportedOperationException("Replace this by your implementation");
     }
