@@ -48,11 +48,31 @@ public class SkipListExperimentUtils {
     }
 
     public static double measureSearch(AbstractSkipList skipList, int size) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        double totalTime = 0;
+        List<Integer> values = RandomOrderedValues(0, 2 * size, 1);
+
+        for (int toSearch : values) {
+            double startTime = System.nanoTime();
+            skipList.search(toSearch);
+            totalTime += System.nanoTime() - startTime;
+        }
+
+        return totalTime / (size * 2 + 1);
     }
 
     public static double measureDeletions(AbstractSkipList skipList, int size) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        double totalTime = 0;
+
+        List<Integer> values = RandomOrderedValues(0, 2 * size, 2);
+
+        Collections.shuffle(values);
+        for (int val : values) {
+            AbstractSkipList.Node toDelete = skipList.search(val);
+            double startTime = System.nanoTime();
+            skipList.delete(toDelete);
+            totalTime += System.nanoTime() - startTime;
+        }
+        return totalTime / (size + 1);
     }
 
     public static void Task2Dot2() {
