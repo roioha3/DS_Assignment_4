@@ -12,9 +12,9 @@ public class StringHash implements HashFactory<String> {
     }
 
     public class Functor implements HashFunctor<String> {
-        final private HashFunctor<Integer> carterWegmanHash;
-        final private int c;
-        final private int q;
+        final private HashFunctor<Integer> carterWegmanHash = null;
+        final private int c = 0;
+        final private int q = 0;
 
         @Override
         public int hash(String key) {

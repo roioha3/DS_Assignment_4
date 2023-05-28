@@ -12,8 +12,8 @@ public class MultiplicativeShiftingHash implements HashFactory<Long> {
 
     public class Functor implements HashFunctor<Long> {
         final public static long WORD_SIZE = 64;
-        final private long a;
-        final private long k;
+        final private long a = 0;
+        final private long k = 0;
 
         @Override
         public int hash(Long key) {
