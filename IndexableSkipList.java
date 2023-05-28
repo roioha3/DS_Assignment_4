@@ -9,7 +9,7 @@ public class IndexableSkipList extends AbstractSkipList {
     public Node find(int val) {
         Node curr = head;
         int level = head.height();
-        while (level >= 0 && curr.getNext(level).key() != val){
+        while (level >= 0 && curr.getNext(level).key() != val&){
             while (curr.getNext(level).key() > val)
                 level--;
             curr = curr.getNext(level);
