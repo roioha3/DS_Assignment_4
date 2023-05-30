@@ -36,7 +36,7 @@ public class SkipListExperimentUtils {
     public static Pair<AbstractSkipList, Double> measureInsertions(double p, int size) {
         List<Integer> values = RandomOrderedValues(0, 2 * size, 2);
         IndexableSkipList skipList = new IndexableSkipList(p);
-
+        System.nanoTime();
         double totalTime = 0;
         for (int val : values) {
             double startTime = System.nanoTime();
