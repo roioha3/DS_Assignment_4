@@ -1,24 +1,41 @@
 import java.util.Random;
 
 public class StringHash implements HashFactory<String> {
-
+    final private HashingUtils gen;
+    final private Random rand;
     public StringHash() {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        gen = new HashingUtils();
+        rand = new Random();
     }
-
     @Override
     public HashFunctor<String> pickHash(int k) {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+
+        long q = gen.genLong(Integer.MAX_VALUE/2 + 1,(long)Integer.MAX_VALUE + 1);
+        while(!gen.runMillerRabinTest(q, 50))
+            q = gen.genLong(Integer.MAX_VALUE/2 + 1,(long)Integer.MAX_VALUE + 1);
+
+        int c = rand.nextInt(2, (int)q - 1);
+
+        return new Functor(c, (int)q, new ModularHash().pickHash(k));
     }
 
     public class Functor implements HashFunctor<String> {
-        final private HashFunctor<Integer> carterWegmanHash = null;
-        final private int c = 0;
-        final private int q = 0;
-
+        final private HashFunctor<Integer> carterWegmanHash;
+        final private int c;
+        final private int q;
+        public Functor(int c, int q, HashFunctor<Integer> carterWegmanHash) {
+            this.c = c;
+            this.q = q;
+            this.carterWegmanHash = carterWegmanHash;
+        }
         @Override
         public int hash(String key) {
-            throw new UnsupportedOperationException("Replace this by your implementation");
+            int sum = 0;
+
+            for(int i = 0; i < key.length(); i++){
+               sum += HashingUtils.mod(key.charAt(i) * HashingUtils.modPow(c, key.length() - i, q), q);
+            }
+            return carterWegmanHash.hash(HashingUtils.mod(sum, q));
         }
 
         public int c() {

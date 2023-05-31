@@ -117,12 +117,14 @@ abstract public class AbstractSkipList {
     public static class Node {
         final private List<Node> next;
         final private List<Node> prev;
+        private List<Integer> gapPrev;
         private int height;
         final private int key;
 
         public Node(int key) {
             next = new ArrayList<>();
             prev = new ArrayList<>();
+            gapPrev = new ArrayList<>();
             this.height = -1;
             this.key = key;
         }
@@ -141,6 +143,12 @@ abstract public class AbstractSkipList {
             }
 
             return next.get(level);
+        }
+
+        public Node getPrevGap(int level) {
+            if (level > height)
+                throw new IllegalStateException("Fetching height higher than current node height");
+            return prev.get(level);
         }
 
         public void setNext(int level, Node next) {
