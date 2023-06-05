@@ -46,7 +46,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
             size++;
         }
     }
-    private int find(K key){
+    private int find(K key) {
         int index = hashFunc.hash(key);
         for(int i = 0 ;i < capacity; i++){
             int curr = (i + index) % capacity;

@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class SkipListExperimentUtils {
     public static double measureLevels(double p, int x) {
@@ -120,9 +119,15 @@ public class SkipListExperimentUtils {
     }
     public static void main(String[] args) {
         //Task2Dot6();
-        for (int i = 0; i < 10; i++) {
-            Random rand = new Random();
-            System.out.println(rand.nextInt(100));
-        }
+        IndexableSkipList skipList = new IndexableSkipList(0.5);
+        skipList.increaseHeight();
+        skipList.insertWithHeight(5, 1);
+        skipList.insertWithHeight(6, 2);
+        /*for (int i = 0; i < 50; i++){
+            skipList.insert(2 * i);
+        }*/
+        System.out.println(skipList);
+        //System.out.println(skipList.rank(50));
+
     }
 }
