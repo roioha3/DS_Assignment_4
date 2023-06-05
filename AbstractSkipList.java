@@ -138,9 +138,11 @@ abstract public class AbstractSkipList {
     public static class Node {
         final private List<Node> next;
         final private List<Node> prev;
-        private List<Integer> gapPrev;
         private int height;
         final private int key;
+        // Field for assignment 2.12.2
+        private List<Integer> gapPrev;
+
 
         public Node(int key) {
             next = new ArrayList<>();
