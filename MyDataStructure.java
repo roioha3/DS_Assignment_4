@@ -2,6 +2,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class MyDataStructure {
+    IndexableSkipList skipList;
+    HashTable<Integer,Integer> hashTable;
+
     /*
      * You may add any members that you wish to add.
      * Remember that all the data-structures you use must be YOUR implementations,
@@ -13,30 +16,38 @@ public class MyDataStructure {
      *
      * @param N The maximal number of items expected in the DS.
      */
-    public MyDataStructure(int N) {}
+    public MyDataStructure(int N) {
+        skipList = new IndexableSkipList(0.5);
+        hashTable = new ProbingHashTable<>(new ModularHash());
+    }
 
     /*
      * In the following functions,
      * you should REMOVE the place-holder return statements.
      */
     public boolean insert(int value) {
-        return false;
+        hashTable.insert(value,value);
+        return skipList.insert(value) != null;
     }
 
     public boolean delete(int value) {
-        return false;
+        if(hashTable.search(value) == null)
+            return false;
+        hashTable.delete(value);
+        skipList.delete(skipList.find(value));
+        return true;
     }
 
     public boolean contains(int value) {
-        return false;
+        return hashTable.search(value) != null;
     }
 
     public int rank(int value) {
-        return -1;
+        return skipList.rank(value);
     }
 
     public int select(int index) {
-        return Integer.MIN_VALUE;
+        return skipList.select(index);
     }
 
     public List<Integer> range(int low, int high) {

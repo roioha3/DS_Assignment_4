@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class SkipListExperimentUtils {
     public static double measureLevels(double p, int x) {

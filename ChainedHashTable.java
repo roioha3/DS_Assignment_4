@@ -45,7 +45,17 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
         }
 
     }
-
+    public void printListsLengths(){
+        for (int i = 0; i < table.length; i++){
+            Link<K, V> curr = table[i];
+            int count = 0;
+            while (curr != null){
+                count++;
+                curr = curr.next;
+            }
+            System.out.println(count);
+        }
+    }
     public V search(K key) {
         Link<K, V> l = find(key);
         if (l == null)
@@ -65,6 +75,8 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
         return null;
     }
     public void insert(K key, V value) {
+        if (size + 1 == maxLoadFactor * capacity)
+            rehash();
         if(search(key) == null) {
             int m = hashFunc.hash(key);
             Link<K, V> curr = table[m];
@@ -75,8 +87,6 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
             table[m] = toInsert;
             size++;
 
-            if (size > maxLoadFactor * capacity)
-                rehash();
         }
     }
 

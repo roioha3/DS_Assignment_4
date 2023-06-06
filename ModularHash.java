@@ -14,7 +14,7 @@ public class ModularHash implements HashFactory<Integer> {
         long p = gen.genLong((long)Integer.MAX_VALUE + 1, Long.MAX_VALUE);
         while(!gen.runMillerRabinTest(p,50))
             p = gen.genLong((long)Integer.MAX_VALUE + 1, Long.MAX_VALUE);
-        int m = 1 >> k;
+        int m = 1 << k;
         return new Functor(a,b,p,m);
     }
 
