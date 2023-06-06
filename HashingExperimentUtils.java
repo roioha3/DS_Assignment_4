@@ -102,7 +102,6 @@ public class HashingExperimentUtils {
     public static Pair<Double, Double> measureStringOperations() {
         throw new UnsupportedOperationException("Replace this by your implementation");
     }
-
     public static void main(String[] args) {
         TestChaining();
         System.out.println("---------------------");
