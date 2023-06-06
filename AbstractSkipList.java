@@ -63,7 +63,7 @@ abstract public class AbstractSkipList {
             /*if (level == 0)
                 System.out.println(1);*/
             int prevGapForNext = nextNode.getPrevGap(level);
-            nextNode.setPrevGap(level, prevGapForNext - sum + 1);
+            nextNode.setPrevGap(level, prevGapForNext - sum);
         }
         return newNode;
     }
