@@ -33,42 +33,54 @@ abstract public class AbstractSkipList {
     }
 
     public Node insertWithHeight(int key, int nodeHeight) {
-        System.out.println("----------------- " + key + " -----------------");
         Node prevNode = find(key);
         if (prevNode.key() == key) {
             return null;
         }
 
-        size++;
-
         while (nodeHeight > head.height()) {
             increaseHeight();
         }
+        size++;
 
         Node newNode = new Node(key);
-        newNode.addPrevGap(1);
-        int sumGap = 1;
         for (int level = 0; level <= nodeHeight && prevNode != null; ++level) {
             Node nextNode = prevNode.getNext(level);
             //System.out.println(sumGap);
             newNode.addLevel(nextNode, prevNode);
-            if (level < nodeHeight) {
-                System.out.println("level " + level + " gap " + sumGap);
-                newNode.addPrevGap(sumGap);
-            }
+
             prevNode.setNext(level, newNode);
             nextNode.setPrev(level, newNode);
-            nextNode.setPrevGap(level, nextNode.getPrevGap(level) - sumGap);
-            //System.out.print(tail.getPrevGap(level) + ", ");
-            sumGap = prevNode.getPrevGap(level) + 1;
             while (prevNode != null && prevNode.height() == level) {
-                sumGap += prevNode.getPrevGap(level);
                 prevNode = prevNode.getPrev(level);
             }
+        }
+        //System.out.print(newNode.key() + ": ");
+        for(int level = 0; level <= nodeHeight; level++){
+            int sum = CalcPrevGap(newNode, level);
+            newNode.addPrevGap(sum);
+            Node nextNode = newNode.getNext(level);
+            /*if (level == 0)
+                System.out.println(1);*/
+            int prevGapForNext = nextNode.getPrevGap(level);
+            nextNode.setPrevGap(level, prevGapForNext - sum + 1);
         }
         return newNode;
     }
 
+    private int CalcPrevGap(Node node, int level){
+        //System.out.println("level: " + level + " node height: " + node.height());
+        if (level == 0)
+            return 1;
+        Node curr = node;
+        int sum = curr.getPrevGap(level - 1);
+        while (curr.getPrev(level - 1) != null && curr.getPrev(level - 1) != node.getPrev(level)){
+            sum += curr.getPrev(level - 1).getPrevGap(level - 1);
+            curr = curr.getPrev(level - 1);
+        }
+        //System.out.println();
+        return sum;
+    }
     public Node insert(int key) {
         int nodeHeight = generateHeight();
         return insertWithHeight(key, nodeHeight);
@@ -137,7 +149,7 @@ abstract public class AbstractSkipList {
 
     public static class Node {
         final private List<Node> next;
-        final private List<Node> prev;
+        final public List<Node> prev;
         private int height;
         final private int key;
         // Field for assignment 2.12.2

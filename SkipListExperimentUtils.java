@@ -120,9 +120,11 @@ public class SkipListExperimentUtils {
     public static void main(String[] args) {
         //Task2Dot6();
         IndexableSkipList skipList = new IndexableSkipList(0.5);
+        System.out.println(skipList);
+        skipList.insertWithHeight(7, 2);
+        skipList.insertWithHeight(6, 0);
+        skipList.insertWithHeight(11,4);
         skipList.increaseHeight();
-        skipList.insertWithHeight(5, 1);
-        skipList.insertWithHeight(6, 2);
         /*for (int i = 0; i < 50; i++){
             skipList.insert(2 * i);
         }*/
