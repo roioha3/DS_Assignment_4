@@ -1,9 +1,11 @@
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class MyDataStructure {
     IndexableSkipList skipList;
-    HashTable<Integer,Integer> hashTable;
+    HashTable<Integer, AbstractSkipList.Node> hashTable;
 
     /*
      * You may add any members that you wish to add.
@@ -26,15 +28,19 @@ public class MyDataStructure {
      * you should REMOVE the place-holder return statements.
      */
     public boolean insert(int value) {
-        hashTable.insert(value,value);
-        return skipList.insert(value) != null;
+        AbstractSkipList.Node nodeSkipList = skipList.insert(value);
+        if(nodeSkipList == null)
+            return false;
+        hashTable.insert(value,nodeSkipList);
+        return true;
     }
 
     public boolean delete(int value) {
-        if(hashTable.search(value) == null)
+        AbstractSkipList.Node nodeToDelete = hashTable.search(value);
+        if(nodeToDelete == null)
             return false;
+        skipList.delete(nodeToDelete);
         hashTable.delete(value);
-        skipList.delete(skipList.find(value));
         return true;
     }
 
@@ -51,6 +57,14 @@ public class MyDataStructure {
     }
 
     public List<Integer> range(int low, int high) {
-        return null;
+        List<Integer> output = new LinkedList<>();
+        AbstractSkipList.Node lowNode = hashTable.search(low);
+        if(lowNode == null)
+            return null;
+        while(lowNode.key() <= high && lowNode.key() != Integer.MAX_VALUE){
+            output.add(lowNode.key());
+            lowNode.getNext(0);
+        }
+        return output;
     }
 }
