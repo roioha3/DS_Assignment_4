@@ -88,7 +88,7 @@ public class SkipListExperimentUtils {
                 double sumDiff = 0;
                 for (int i = 0; i < 5; i++) {
                     double avg = measureLevels(probabilities[p], sequences[x]);
-                    sumDiff += (avg - expectency);
+                    sumDiff += Math.abs(avg - expectency);
                     System.out.print(avg + " & ");
                 }
                 System.out.println(expectency + " & " + sumDiff / 5 + " \\\\");
@@ -119,10 +119,6 @@ public class SkipListExperimentUtils {
         }
     }
     public static void main(String[] args) {
-        //Task2Dot6();
-        for (int i = 0; i < 10; i++) {
-            Random rand = new Random();
-            System.out.println(rand.nextInt(100));
-        }
+        Task2Dot2();
     }
 }
