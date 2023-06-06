@@ -38,12 +38,26 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
     }
 
     public void insert(K key, V value) {
+        if (size + 1 == capacity * maxLoadFactor) {
+            rehash();
+        }
         if (find(key) != -1) {
             int i = hashFunc.hash(key);
             while (table[i] != null)
                 i = (i + 1) % capacity;
             table[i] = new Pair<>(key, value);
             size++;
+        }
+    }
+    public void rehash() {
+        capacity = capacity << 1;
+        Pair<K, V>[] oldTable = table;
+        table = (Pair<K, V>[])new Pair[capacity];
+        hashFunc = hashFactory.pickHash(capacity);
+        for (int i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] != null & oldTable[i] != flag) {
+                insert(oldTable[i].first(), oldTable[i].second());
+            }
         }
     }
     private int find(K key) {
