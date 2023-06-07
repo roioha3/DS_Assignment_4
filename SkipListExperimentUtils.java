@@ -123,6 +123,8 @@ public class SkipListExperimentUtils {
             skipList.insert(2 * i);
         }
         System.out.println(skipList);
-        System.out.println(skipList.select(4));
+        for (int i = 0; i < 10; i++) {
+            System.out.println(skipList.select(i));
+        }
     }
 }
