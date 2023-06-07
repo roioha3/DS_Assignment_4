@@ -45,22 +45,24 @@ public class IndexableSkipList extends AbstractSkipList {
     public int rank(int val) {
         Node node = find(val);
         int rank = node.getPrevGap(node.height());
-        Node prevNode = node;
+        Node prevNode = node.getPrev(node.height());
         for (int level = node.height(); level <= head.height(); level++) {
             while (prevNode != head & prevNode.height() == level){
                 rank += prevNode.getPrevGap(level);
                 prevNode = prevNode.getPrev(level);
             }
         }
-        return rank;
+        return rank - 1;
     }
 
     public int select(int index) {
+        int level = head.height();
         Node curr = head;
+        index++;
         int currRank = 0;
-        for (int level = head.height(); level >= 0 & currRank < index ; level--) {
-            while (currRank + curr.getPrevGap(level) < index){
-                currRank += curr.getPrevGap(level);
+        for (; level >= 0 & currRank < index ; level--) {
+            while (currRank + curr.getNext(level).getPrevGap(level) <= index){
+                currRank += curr.getNext(level).getPrevGap(level);
                 curr = curr.getNext(level);
             }
         }

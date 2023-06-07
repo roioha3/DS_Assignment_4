@@ -120,8 +120,9 @@ public class SkipListExperimentUtils {
     public static void main(String[] args) {
         IndexableSkipList skipList = new IndexableSkipList(0.5);
         for (int i = 0; i < 10; i++) {
-            skipList.insert(i);
+            skipList.insert(2 * i);
         }
         System.out.println(skipList);
+        System.out.println(skipList.select(4));
     }
 }
