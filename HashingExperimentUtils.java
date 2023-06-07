@@ -96,7 +96,33 @@ public class HashingExperimentUtils {
         }
     }
     public static Pair<Double, Double> measureLongOperations() {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        HashingUtils utils = new HashingUtils();
+        double avgInsert = 0;
+        double avgSearch = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Long[] values = utils.genUniqueLong((1 << 16) - 1);
+            HashTable<Long, Long> hashTable = new ChainedHashTable<Long, Long>(new MultiplicativeShiftingHash(), k, 1);
+            double sumInsert = 0;
+            for (long num : values) {
+                double startTime = System.nanoTime();
+                hashTable.insert(num, num);
+                sumInsert += System.nanoTime() - startTime;
+            }
+            avgInsert += sumInsert / values.length;
+
+            double sumSearch = 0;
+            for (int j = 0; j < values.length / 2; j++) {
+                double startTime = System.nanoTime();
+                hashTable.search(values[i]);
+                sumSearch += System.nanoTime() - startTime;
+                startTime = System.nanoTime();
+                hashTable.search(-values[i]);
+                sumSearch += System.nanoTime() - startTime;
+            }
+            avgSearch += sumSearch / values.length;
+        }
+        return new Pair<>(avgInsert / 10,avgSearch / 10);
     }
 
     public static Pair<Double, Double> measureStringOperations() {
@@ -131,9 +157,18 @@ public class HashingExperimentUtils {
         }
         return new Pair<>(avgInsert / times, avgSearch / times);
     }
+    private static void Test3D12(){
+
+        Pair<Double,Double> longRuntimes = measureLongOperations();
+        System.out.println(longRuntimes.first() + " " + longRuntimes.second());
+
+        Pair<Double,Double> StringsRuntimes = measureStringOperations();
+        System.out.println(StringsRuntimes.first() + " " + StringsRuntimes.second());
+    }
     public static void main(String[] args) {
-        TestChaining();
+        /*TestChaining();
         System.out.println("---------------------");
-        TestProbing();
+        TestProbing();*/
+        Test3D12();
     }
 }

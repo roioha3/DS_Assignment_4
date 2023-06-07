@@ -20,7 +20,7 @@ public class MyDataStructure {
      */
     public MyDataStructure(int N) {
         skipList = new IndexableSkipList(0.5);
-        hashTable = new ProbingHashTable<>(new ModularHash());
+        hashTable = new ChainedHashTable<>(new ModularHash(),(int)(Math.log(N) / Math.log(2) + 1), 1);
     }
 
     /*
@@ -61,7 +61,7 @@ public class MyDataStructure {
         AbstractSkipList.Node lowNode = hashTable.search(low);
         if(lowNode == null)
             return null;
-        while(lowNode.key() <= high && lowNode.key() != Integer.MAX_VALUE){
+        while(lowNode.key() <= high){
             output.add(lowNode.key());
             lowNode = lowNode.getNext(0);
         }
