@@ -55,13 +55,11 @@ abstract public class AbstractSkipList {
                 prevNode = prevNode.getPrev(level);
             }
         }
-        //System.out.print(newNode.key() + ": ");
         for(int level = 0; level <= nodeHeight; level++){
             int sum = CalcPrevGap(newNode, level);
             newNode.addPrevGap(sum);
             Node nextNode = newNode.getNext(level);
-            /*if (level == 0)
-                System.out.println(1);*/
+
             int prevGapForNext = nextNode.getPrevGap(level);
             nextNode.setPrevGap(level, prevGapForNext - sum + 1);
         }
@@ -83,7 +81,6 @@ abstract public class AbstractSkipList {
     }
 
     private int CalcPrevGap(Node node, int level){
-        //System.out.println("level: " + level + " node height: " + node.height());
         if (level == 0)
             return 1;
         Node curr = node;
@@ -92,7 +89,6 @@ abstract public class AbstractSkipList {
             sum += curr.getPrev(level - 1).getPrevGap(level - 1);
             curr = curr.getPrev(level - 1);
         }
-        //System.out.println();
         return sum;
     }
     public Node insert(int key) {

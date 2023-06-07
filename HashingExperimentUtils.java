@@ -168,7 +168,13 @@ public class HashingExperimentUtils {
     public static void main(String[] args) {
         /*TestChaining();
         System.out.println("---------------------");
-        TestProbing();*/
-        Test3D12();
+        TestProbing();
+        Test3D12();*/
+        ProbingHashTable<Integer,Integer> hashTable = new ProbingHashTable(new ModularHash());
+        for (int i = 0; i < 100; i++) {
+            hashTable.insert(i, 2 * i);
+        }
+        System.out.println(hashTable);
+
     }
 }
