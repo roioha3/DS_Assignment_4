@@ -41,7 +41,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
         if (size + 1 == capacity * maxLoadFactor) {
             rehash();
         }
-        if (find(key) != -1) {
+        if (find(key) == -1) {
             int i = hashFunc.hash(key);
             while (table[i] != null)
                 i = (i + 1) % capacity;
@@ -67,7 +67,7 @@ public class ProbingHashTable<K, V> implements HashTable<K, V> {
             if (table[curr] == null)
                 return -1;
 
-            if (table[curr].first().equals(key))
+            if (table[curr].first() != null && table[curr].first().equals(key))
                 return curr;
         }
         return -1;

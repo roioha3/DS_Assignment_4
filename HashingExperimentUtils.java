@@ -173,8 +173,17 @@ public class HashingExperimentUtils {
         ProbingHashTable<Integer,Integer> hashTable = new ProbingHashTable(new ModularHash());
         for (int i = 0; i < 100; i++) {
             hashTable.insert(i, 2 * i);
+
         }
-        System.out.println(hashTable);
+        for (int i = 1; i <= 10; i++) {
+            hashTable.delete(i*5);
+        }
+
+        System.out.println(hashTable.search(0));
+        System.out.println(hashTable.search(77));
+        System.out.println(hashTable.search(44));
+
+        System.out.println(hashTable.search(50));
 
     }
 }
