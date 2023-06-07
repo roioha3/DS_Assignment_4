@@ -100,7 +100,36 @@ public class HashingExperimentUtils {
     }
 
     public static Pair<Double, Double> measureStringOperations() {
-        throw new UnsupportedOperationException("Replace this by your implementation");
+        HashingUtils utils = new HashingUtils();
+        double avgInsert = 0;
+        double avgSearch = 0;
+        int times = 10;
+        for (int i = 0; i < times; i++) {
+            List<String> values = utils.genUniqueStrings(((1 << 16) - 1 + (1 << 15)), 10, 20);
+
+            List<String> toInsert = values.subList(0, (1 << 16) - 1).stream().toList();
+
+            List<String> toSearch = new ArrayList<>(values.subList((1 << 16) - 1, values.size()));
+            toSearch.addAll(values.subList(0, (1 << 15)));
+            HashTable<String, String> hashTable = new ChainedHashTable<>(new StringHash(), k, 1);
+            double sumInsert = 0;
+
+            for (String s : toInsert) {
+                double startTime = System.nanoTime();
+                hashTable.insert(s, s);
+                sumInsert += System.nanoTime() - startTime;
+            }
+            avgInsert += sumInsert / toInsert.size();
+            double sumSearch = 0;
+
+            for (String s : toSearch) {
+                double startTime = System.nanoTime();
+                hashTable.search(s);
+                sumSearch += System.nanoTime() - startTime;
+            }
+            avgSearch += sumSearch / toSearch.size();
+        }
+        return new Pair<>(avgInsert / times, avgSearch / times);
     }
     public static void main(String[] args) {
         TestChaining();

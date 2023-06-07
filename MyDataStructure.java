@@ -63,7 +63,7 @@ public class MyDataStructure {
             return null;
         while(lowNode.key() <= high && lowNode.key() != Integer.MAX_VALUE){
             output.add(lowNode.key());
-            lowNode.getNext(0);
+            lowNode = lowNode.getNext(0);
         }
         return output;
     }

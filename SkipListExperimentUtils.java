@@ -118,6 +118,10 @@ public class SkipListExperimentUtils {
         }
     }
     public static void main(String[] args) {
-        Task2Dot2();
+        IndexableSkipList skipList = new IndexableSkipList(0.5);
+        for (int i = 0; i < 10; i++) {
+            skipList.insert(i);
+        }
+        System.out.println(skipList);
     }
 }

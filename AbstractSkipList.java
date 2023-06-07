@@ -63,8 +63,22 @@ abstract public class AbstractSkipList {
             /*if (level == 0)
                 System.out.println(1);*/
             int prevGapForNext = nextNode.getPrevGap(level);
-            nextNode.setPrevGap(level, prevGapForNext - sum);
+            nextNode.setPrevGap(level, prevGapForNext - sum + 1);
         }
+
+        Node curr = newNode;
+        while (curr != tail & curr.height() == newNode.height()){
+            curr = curr.getNext(newNode.height());
+        }
+
+        for (int level = newNode.height() + 1; level <= head.height(); level++){
+            curr.setPrevGap(level, curr.getPrevGap(level) + 1);
+            while (curr != tail & curr.height() == level){
+                curr = curr.getNext(level);
+            }
+        }
+
+
         return newNode;
     }
 
@@ -124,7 +138,7 @@ abstract public class AbstractSkipList {
         return tail.getPrev(0).key();
     }
 
-    private void levelToString(StringBuilder s, int level) {
+    public void levelToString(StringBuilder s, int level) {
         s.append("H    ");
         Node curr = head.getNext(level);
 
