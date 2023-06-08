@@ -20,16 +20,6 @@ public class IndexableSkipList extends AbstractSkipList {
         return curr;
     }
 
-    /*@Override
-    public Node find(int val){
-        Node current = head;
-        for (int Level = current.height();   Level >= 0; Level--) {
-            while (current.getNext(Level) != null && current.getNext(Level).key() < val) {
-                current = current.getNext(Level);
-            }
-        }
-        return current;
-    }*/
 
     @Override
     public int generateHeight() {
