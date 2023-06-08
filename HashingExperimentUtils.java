@@ -166,24 +166,11 @@ public class HashingExperimentUtils {
         System.out.println(StringsRuntimes.first() + " " + StringsRuntimes.second());
     }
     public static void main(String[] args) {
-        /*TestChaining();
+        TestChaining();
         System.out.println("---------------------");
         TestProbing();
-        Test3D12();*/
-        ProbingHashTable<Integer,Integer> hashTable = new ProbingHashTable(new ModularHash());
-        for (int i = 0; i < 100; i++) {
-            hashTable.insert(i, 2 * i);
+        Test3D12();
 
-        }
-        for (int i = 1; i <= 10; i++) {
-            hashTable.delete(i*5);
-        }
-
-        System.out.println(hashTable.search(0));
-        System.out.println(hashTable.search(77));
-        System.out.println(hashTable.search(44));
-
-        System.out.println(hashTable.search(50));
 
     }
 }

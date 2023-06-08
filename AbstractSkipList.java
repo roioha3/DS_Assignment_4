@@ -32,7 +32,9 @@ abstract public class AbstractSkipList {
         return curr.key() == key ? curr : null;
     }
 
-    public Node insertWithHeight(int key, int nodeHeight) {
+
+    public Node insert(int key) {
+        int nodeHeight = generateHeight();
         Node prevNode = find(key);
         if (prevNode.key() == key) {
             return null;
@@ -46,7 +48,6 @@ abstract public class AbstractSkipList {
         Node newNode = new Node(key);
         for (int level = 0; level <= nodeHeight && prevNode != null; ++level) {
             Node nextNode = prevNode.getNext(level);
-            //System.out.println(sumGap);
             newNode.addLevel(nextNode, prevNode);
 
             prevNode.setNext(level, newNode);
@@ -55,56 +56,56 @@ abstract public class AbstractSkipList {
                 prevNode = prevNode.getPrev(level);
             }
         }
-        for(int level = 0; level <= nodeHeight; level++){
-            int sum = CalcPrevGap(newNode, level);
-            newNode.addPrevGap(sum);
-            Node nextNode = newNode.getNext(level);
 
-            int prevGapForNext = nextNode.getPrevGap(level);
-            nextNode.setPrevGap(level, prevGapForNext - sum + 1);
-        }
 
-        Node curr = newNode;
-        while (curr != tail & curr.height() == newNode.height()){
-            curr = curr.getNext(newNode.height());
-        }
+        int currPrevGap = 1;
+        Node curr = newNode.getPrev(0);
+        for (int level = 0; level <= head.height(); level++) {
 
-        for (int level = newNode.height() + 1; level <= head.height(); level++){
-            curr.setPrevGap(level, curr.getPrevGap(level) + 1);
-            while (curr != tail & curr.height() == level){
-                curr = curr.getNext(level);
+            if (curr.getNext(level) == newNode){ // when we are still below new node's height
+                newNode.addPrevGap(currPrevGap); // setting prev gap of new node to be the number of nodes we passed so far.
+                Node nextNode = newNode.getNext(level);
+                nextNode.setPrevGap(level, nextNode.getPrevGap(level) - currPrevGap + 1); // calculating the diff between whole gap and the newly summed.
+            }
+            else{ // when we are above new node's height
+                Node nextNode = curr.getNext(level);
+                nextNode.setPrevGap(level, nextNode.getPrevGap(level) + 1); // adding one to the previous prev gap
+            }
+            while (curr != null && curr.height() == level) {
+                currPrevGap += curr.getPrevGap(level);
+                curr = curr.getPrev(level); // continue
             }
         }
-
-
         return newNode;
     }
 
-    private int CalcPrevGap(Node node, int level){
-        if (level == 0)
-            return 1;
-        Node curr = node;
-        int sum = curr.getPrevGap(level - 1);
-        while (curr.getPrev(level - 1) != null && curr.getPrev(level - 1) != node.getPrev(level)){
-            sum += curr.getPrev(level - 1).getPrevGap(level - 1);
-            curr = curr.getPrev(level - 1);
-        }
-        return sum;
-    }
-    public Node insert(int key) {
-        int nodeHeight = generateHeight();
-        return insertWithHeight(key, nodeHeight);
-    }
-
     public boolean delete(Node node) {
+        Node above = null;
         for (int level = 0; level <= node.height(); ++level) {
             Node prev = node.getPrev(level);
             Node next = node.getNext(level);
+
+            if (level == node.height()){
+                above = prev;
+                while (above != null && above.height() == level){
+                    above = above.getPrev(level);
+                }
+            }
+
             int newGap = next.getPrevGap(level) + node.getPrevGap(level) - 1;
             next.setPrevGap(level,newGap);
+
+
             prev.setNext(level, next);
             next.setPrev(level, prev);
+        }
 
+        for (int level = node.height() + 1; level <= head.height(); ++level) {
+            Node next = above.getNext(level);
+            next.setPrevGap(level, next.getPrevGap(level) - 1);
+            while (above != null && above.height() == level){
+                above = above.getPrev(level);
+            }
         }
         size--;
         return true;

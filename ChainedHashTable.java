@@ -80,7 +80,7 @@ public class ChainedHashTable<K, V> implements HashTable<K, V> {
         if(search(key) == null) {
             int m = hashFunc.hash(key);
             Link<K, V> curr = table[m];
-            Link<K, V> toInsert = new Link<K, V>(key, value);
+            Link<K, V> toInsert = new Link<>(key, value);
             toInsert.next = curr;
             if(curr != null)
                 curr.prev = toInsert;
