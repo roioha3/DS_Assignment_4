@@ -94,13 +94,32 @@ abstract public class AbstractSkipList {
     }
 
     public boolean delete(Node node) {
+        Node above = null;
         for (int level = 0; level <= node.height(); ++level) {
             Node prev = node.getPrev(level);
             Node next = node.getNext(level);
+
+            if (level == node.height()){
+                above = prev;
+                while (above != null && above.height() == level){
+                    above = above.getPrev(level);
+                }
+            }
+
             int newGap = next.getPrevGap(level) + node.getPrevGap(level) - 1;
             next.setPrevGap(level,newGap);
+
+
             prev.setNext(level, next);
             next.setPrev(level, prev);
+        }
+
+        for (int level = node.height() + 1; level <= head.height(); ++level) {
+            Node next = above.getNext(level);
+            next.setPrevGap(level, next.getPrevGap(level) - 1);
+            while (above != null && above.height() == level){
+                above = above.getPrev(level);
+            }
         }
         size--;
         return true;
