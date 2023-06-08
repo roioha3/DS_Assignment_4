@@ -32,7 +32,9 @@ abstract public class AbstractSkipList {
         return curr.key() == key ? curr : null;
     }
 
-    public Node insertWithHeight(int key, int nodeHeight) {
+
+    public Node insert(int key) {
+        int nodeHeight = generateHeight();
         Node prevNode = find(key);
         if (prevNode.key() == key) {
             return null;
@@ -75,22 +77,6 @@ abstract public class AbstractSkipList {
             }
         }
         return newNode;
-    }
-
-    private int CalcPrevGap(Node node, int level){
-        if (level == 0)
-            return 1;
-        Node curr = node;
-        int sum = curr.getPrevGap(level - 1);
-        while (curr.getPrev(level - 1) != null && curr.getPrev(level - 1) != node.getPrev(level)){
-            sum += curr.getPrev(level - 1).getPrevGap(level - 1);
-            curr = curr.getPrev(level - 1);
-        }
-        return sum;
-    }
-    public Node insert(int key) {
-        int nodeHeight = generateHeight();
-        return insertWithHeight(key, nodeHeight);
     }
 
     public boolean delete(Node node) {
