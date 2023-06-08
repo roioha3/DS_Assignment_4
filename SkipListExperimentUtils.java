@@ -118,13 +118,16 @@ public class SkipListExperimentUtils {
         }
     }
     public static void main(String[] args) {
-        IndexableSkipList skipList = new IndexableSkipList(0.5);
-        for (int i = 0; i < 10; i++) {
-            skipList.insert(2 * i);
+        IndexableSkipList skipList = new IndexableSkipList(0.1);
+        List<Integer> random = RandomOrderedValues(0, 20, 2);
+        for (int val : random){
+            System.out.println(val);
         }
+        random.forEach(skipList::insert);
         System.out.println(skipList);
-        for (int i = 0; i < 10; i++) {
+
+        for (int i = 0; i < 10; i++)
             System.out.println(skipList.select(i));
-        }
+
     }
 }

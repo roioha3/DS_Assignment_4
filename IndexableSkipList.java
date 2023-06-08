@@ -52,13 +52,13 @@ public class IndexableSkipList extends AbstractSkipList {
                 prevNode = prevNode.getPrev(level);
             }
         }
-        return rank - 1;
+
+        return rank;
     }
 
     public int select(int index) {
         int level = head.height();
         Node curr = head;
-        index++;
         int currRank = 0;
         for (; level >= 0 & currRank < index ; level--) {
             while (currRank + curr.getNext(level).getPrevGap(level) <= index){
